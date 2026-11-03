@@ -8,7 +8,7 @@
 globalThis.window = globalThis.window || {}
 
 window.__ModuleLoader__.load({
-  id: 'dsh-mine-sweeper',
+  id: '@meng_long/dsh-mine-sweeper',
   factory: (require) => {
     var module = { exports: {} }
     var exports = module.exports
@@ -16,7 +16,7 @@ window.__ModuleLoader__.load({
 
     var React = require('react')
     var h = React.createElement
-    var NAME = 'dsh-mine-sweeper'
+    var NAME = '@meng_long/dsh-mine-sweeper'
     var SLOT = 'shell.overlay'
     var ENTRY_ID = 'sweeper'
     var TAB = 34

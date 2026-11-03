@@ -1,4 +1,8 @@
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
+
+// 加载器按包名找注册项，id 写错会报 "loaded without registering"；直接从清单取真名，避免改名后再飘。
+const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'))
 
 // client.js 是给浏览器模块加载器用的脚本：先搭出它要求的最小环境再 import。
 const loads = []
@@ -14,12 +18,12 @@ await import('../client.js')
 // —— 客户端 bundle 契约 ——
 assert.equal(loads.length, 1, 'client.js should register exactly one module entry')
 const entry = loads[0]
-assert.equal(entry.id, 'dsh-mine-sweeper', 'bundle id must equal the package name')
+assert.equal(entry.id, pkg.name, 'bundle id must equal the package name')
 const mod = entry.factory((spec) => {
   assert.equal(spec, 'react')
   return {}
 })
-assert.equal(mod.name, 'dsh-mine-sweeper')
+assert.equal(mod.name, pkg.name)
 assert.deepEqual(mod.inject, ['slots'])
 
 // —— apply：插到 shell.overlay，并用 ctx.on('dispose') 收拾 style 标签 ——
