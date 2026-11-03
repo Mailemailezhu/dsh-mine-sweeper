@@ -1,6 +1,6 @@
 {
   "name": "@meng_long/dsh-mine-sweeper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "扫雷浮层 / Minesweeper overlay for DeepSeek Harness — 在会话区左侧悬浮一块可拖动、可折叠、可自定义行列与雷数的扫雷盘，纯内存状态。",
   "type": "module",
   "main": "index.js",
