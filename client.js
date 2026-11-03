@@ -19,6 +19,7 @@ window.__ModuleLoader__.load({
     var NAME = 'dsh-sweeper'
     var SLOT = 'shell.overlay'
     var ENTRY_ID = 'sweeper'
+    var TAB = 34
 
     var CSS = [
       '.dsh-sweeper-panel{position:absolute;display:flex;flex-direction:column;border-radius:12px;',
@@ -51,7 +52,8 @@ window.__ModuleLoader__.load({
       '.dsh-sweeper-cell[data-n="6"]{color:#0891b2}',
       '.dsh-sweeper-cell[data-n="7"]{color:#db2777}',
       '.dsh-sweeper-cell[data-n="8"]{color:#4b5563}',
-      '.dsh-sweeper-tab{position:absolute;width:34px;height:34px;padding:0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;background:var(--dsw-alias-bg-overlay,#fff);border:1px solid var(--dsw-alias-border-l2,rgba(0,0,0,.15));box-shadow:0 8px 20px rgba(0,0,0,.2)}',
+      '.dsh-sweeper-tab{position:absolute;width:34px;height:34px;padding:0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:grab;touch-action:none;background:var(--dsw-alias-bg-overlay,#fff);border:1px solid var(--dsw-alias-border-l2,rgba(0,0,0,.15));box-shadow:0 8px 20px rgba(0,0,0,.2)}',
+      '.dsh-sweeper-tab:active{cursor:grabbing}',
       '.dsh-sweeper-tab:hover{border-color:var(--dsw-alias-brand-primary,#3b82f6)}',
     ].join('\n')
 
@@ -157,6 +159,7 @@ window.__ModuleLoader__.load({
       const [collapsed, setCollapsed] = React.useState(false)
       const [pos, setPos] = React.useState({ left: 280, top: 84 })
       const panelRef = React.useRef(null)
+      const tabRef = React.useRef(null)
       const dragRef = React.useRef(null)
 
       const width = Math.max(276, Math.min(game.cols * 24 + 26, 780))
@@ -178,36 +181,55 @@ window.__ModuleLoader__.load({
 
       const restart = () => setGame(makeGame(game.rows, game.cols, game.mines))
 
-      const onHeadDown = (e) => {
+      // 折叠态和展开态共用一套拖动：边界用浮层容器的尺寸算，不用 window。
+      const beginDrag = (e, boxEl, limit) => {
         if (e.button !== 0) return
-        if (e.target && e.target.closest && e.target.closest('button')) return
-        // 边界用浮层容器的尺寸算，不用 window：浮层就是会话区的可视范围。
-        const host = panelRef.current ? panelRef.current.offsetParent : null
+        const host = boxEl ? boxEl.offsetParent : null
         dragRef.current = {
-          x: e.clientX, y: e.clientY, left: pos.left, top: pos.top,
+          x: e.clientX, y: e.clientY, left: pos.left, top: pos.top, moved: false, limit: limit,
           w: host ? host.clientWidth : 1280,
           h: host ? host.clientHeight : 800,
         }
         e.currentTarget.setPointerCapture(e.pointerId)
       }
 
-      const onHeadMove = (e) => {
+      const onHeadDown = (e) => {
+        if (e.target && e.target.closest && e.target.closest('button')) return
+        beginDrag(e, panelRef.current, width)
+      }
+
+      const onTabDown = (e) => beginDrag(e, tabRef.current, TAB)
+
+      const onDrag = (e) => {
         const d = dragRef.current
         if (!d) return
+        if (Math.abs(e.clientX - d.x) > 3 || Math.abs(e.clientY - d.y) > 3) d.moved = true
         setPos({
-          left: clamp(d.left + e.clientX - d.x, 4, Math.max(4, d.w - width - 4)),
-          top: clamp(d.top + e.clientY - d.y, 4, Math.max(4, d.h - 96)),
+          left: clamp(d.left + e.clientX - d.x, 4, Math.max(4, d.w - d.limit - 4)),
+          top: clamp(d.top + e.clientY - d.y, 4, Math.max(4, d.h - d.limit - 4)),
         })
       }
 
       const onHeadUp = () => { dragRef.current = null }
 
+      // 折叠态没有标题栏，💣 按钮自己既是拖手也是开关键：拖动过就不算点击。
+      const onTabUp = () => {
+        const d = dragRef.current
+        dragRef.current = null
+        if (d && !d.moved) setCollapsed(false)
+      }
+
       if (collapsed) {
         return h('button', {
+          ref: tabRef,
           className: 'dsh-sweeper-tab',
-          title: '打开扫雷',
+          title: '打开扫雷（可以拖着走）',
           style: { left: pos.left + 'px', top: pos.top + 'px' },
-          onClick: () => setCollapsed(false),
+          onPointerDown: onTabDown,
+          onPointerMove: onDrag,
+          onPointerUp: onTabUp,
+          onPointerCancel: onTabUp,
+          onKeyDown: (e) => { if (e.key === 'Enter' || e.key === ' ') setCollapsed(false) },
         }, '💣')
       }
 
@@ -242,7 +264,7 @@ window.__ModuleLoader__.load({
         h('div', {
           className: 'dsh-sweeper-head',
           onPointerDown: onHeadDown,
-          onPointerMove: onHeadMove,
+          onPointerMove: onDrag,
           onPointerUp: onHeadUp,
           onPointerCancel: onHeadUp,
         },
