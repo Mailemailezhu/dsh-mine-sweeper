@@ -11,10 +11,10 @@ DeepSeek Harness 的扫雷浮层。一块可拖动、可折叠的棋盘悬浮在
 ## 安装
 
 ```sh
-dsh plugin add dsh-mine-sweeper
+dsh plugin add @meng_long/dsh-mine-sweeper
 ```
 
-或者从插件市场装 npm 包 `dsh-mine-sweeper`，然后重启 `dsh web`。
+或者从插件市场装 npm 包 `@meng_long/dsh-mine-sweeper`，然后重启 `dsh web`。
 
 ## 接在哪
 

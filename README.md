@@ -11,10 +11,10 @@ Minesweeper overlay for [DeepSeek Harness](https://github.com/deepseek-ai/deepse
 ## Install
 
 ```sh
-dsh plugin add dsh-mine-sweeper
+dsh plugin add @meng_long/dsh-mine-sweeper
 ```
 
-Or install the npm package `dsh-mine-sweeper` from the plugin market, then restart `dsh web`.
+Or install the npm package `@meng_long/dsh-mine-sweeper` from the plugin market, then restart `dsh web`.
 
 ## How it plugs in
 

@@ -49,5 +49,6 @@ cmd /c "npm publish --access public --registry $Registry"
 if ($LASTEXITCODE -ne 0) { throw 'npm publish 失败' }
 
 Write-Host "`n完成：https://github.com/$Owner/$Repo" -ForegroundColor Green
-Write-Host "npm：https://www.npmjs.com/package/$Repo" -ForegroundColor Green
+$pkgName = (Get-Content package.json -Raw | ConvertFrom-Json).name
+Write-Host "npm：https://www.npmjs.com/package/$pkgName" -ForegroundColor Green
 Write-Host '上架插件商店还差一步：往 https://github.com/awesome-dsh-plugin/awesome-dsh-plugin 提 PR，在列表里加一条指向本仓库的条目。'

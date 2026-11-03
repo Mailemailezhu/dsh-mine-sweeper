@@ -87,7 +87,7 @@ assert.equal(core.reveal(won, 0), won, 'board is frozen after winning')
 
 // —— Host 半边仍要能被 Node 加载 ——
 const host = await import('../index.js')
-assert.equal(host.name, 'dsh-mine-sweeper')
+assert.equal(host.name, '@meng_long/dsh-mine-sweeper')
 assert.equal(typeof host.apply, 'function')
 
 console.log('smoke: ok — bundle contract, slot registration, game core, host half')
