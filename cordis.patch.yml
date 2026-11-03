@@ -1,7 +1,7 @@
-# dsh-sweeper 作为 bundle 安装时用的插件行（package.json 的 dsh.bundle.patch）。
+# dsh-mine-sweeper 作为 bundle 安装时用的插件行（package.json 的 dsh.bundle.patch）。
 #
 # 两条安装路径共用这一份：
-#   - `dsh plugin add dsh-sweeper`：声明了 dsh.bundle 之后，安装流程会把本文件
+#   - `dsh plugin add dsh-mine-sweeper`：声明了 dsh.bundle 之后，安装流程会把本文件
 #     当作 profile 的一层 patch 加载，条目 id 就是下面的 `sweeper`；
 #   - 手工装：在 profile 的 cordis.patch.yml 里自己写一条等价的 insert 记录。
 #
@@ -9,4 +9,4 @@
 # 不随这个 id 走，所以 id 只影响 Host 半边的命名空间。
 - insert:
     - id: sweeper
-      name: dsh-sweeper
+      name: dsh-mine-sweeper

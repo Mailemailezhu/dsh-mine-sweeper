@@ -1,4 +1,4 @@
-/* dsh-sweeper — 客户端半边。
+/* dsh-mine-sweeper — 客户端半边。
  *
  * 注册到 shell.overlay（整帧浮层，list 插槽）：条目自己绝对定位在会话区左侧，
  * 不进 AppFrame 的 grid，所以不会挤压会话、输入框或侧栏。折叠后只剩一个 💣 按钮。
@@ -8,7 +8,7 @@
 globalThis.window = globalThis.window || {}
 
 window.__ModuleLoader__.load({
-  id: 'dsh-sweeper',
+  id: 'dsh-mine-sweeper',
   factory: (require) => {
     var module = { exports: {} }
     var exports = module.exports
@@ -16,45 +16,45 @@ window.__ModuleLoader__.load({
 
     var React = require('react')
     var h = React.createElement
-    var NAME = 'dsh-sweeper'
+    var NAME = 'dsh-mine-sweeper'
     var SLOT = 'shell.overlay'
     var ENTRY_ID = 'sweeper'
     var TAB = 34
 
     var CSS = [
-      '.dsh-sweeper-panel{position:absolute;display:flex;flex-direction:column;border-radius:12px;',
+      '.dsh-mine-sweeper-panel{position:absolute;display:flex;flex-direction:column;border-radius:12px;',
       'background:var(--dsw-alias-bg-overlay,#fff);border:1px solid var(--dsw-alias-border-l2,rgba(0,0,0,.15));',
       'box-shadow:0 18px 44px rgba(0,0,0,.24);color:var(--dsw-alias-label-primary,inherit);',
       "font:12px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif;user-select:none;overflow:hidden}",
-      '.dsh-sweeper-head{display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--dsw-alias-border-l1,rgba(0,0,0,.08));cursor:grab;touch-action:none}',
-      '.dsh-sweeper-head:active{cursor:grabbing}',
-      '.dsh-sweeper-title{font-weight:600;flex:1 1 auto}',
-      '.dsh-sweeper-meta{color:var(--dsw-alias-label-secondary,#888);font-variant-numeric:tabular-nums}',
-      '.dsh-sweeper-btn{border:1px solid var(--dsw-alias-border-l1,rgba(0,0,0,.12));background:var(--dsw-alias-bg-layer-1,transparent);color:inherit;border-radius:6px;height:22px;min-width:22px;padding:0 6px;cursor:pointer;font:inherit;line-height:1}',
-      '.dsh-sweeper-btn:hover{background:var(--dsw-alias-bg-layer-2,rgba(0,0,0,.06))}',
-      '.dsh-sweeper-cfg{display:flex;align-items:center;gap:8px;padding:8px 10px 4px}',
-      '.dsh-sweeper-field{display:inline-flex;align-items:center;gap:3px;color:var(--dsw-alias-label-secondary,#888)}',
-      '.dsh-sweeper-num{width:40px;height:22px;box-sizing:border-box;padding:0 4px;border-radius:6px;text-align:center;border:1px solid var(--dsw-alias-border-l1,rgba(0,0,0,.12));background:var(--dsw-alias-bg-layer-1,transparent);color:inherit;font:inherit}',
-      '.dsh-sweeper-apply{margin-left:auto;height:24px}',
-      '.dsh-sweeper-status{padding:4px 10px 8px;color:var(--dsw-alias-label-secondary,#888)}',
-      '.dsh-sweeper-scroll{overflow:auto;max-height:min(60vh,600px);padding:0 10px 10px}',
-      '.dsh-sweeper-board{display:grid;gap:2px;justify-content:start}',
-      '.dsh-sweeper-cell{width:22px;height:22px;padding:0;border:1px solid transparent;border-radius:4px;background:var(--dsw-alias-bg-layer-2,rgba(0,0,0,.07));color:var(--dsw-alias-label-primary,inherit);font-size:11px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:inherit}',
-      '.dsh-sweeper-cell:hover:not([data-open]):not([data-mine]){background:var(--dsw-alias-bg-layer-1,rgba(0,0,0,.12))}',
-      '.dsh-sweeper-cell[data-open]{background:transparent;border-color:var(--dsw-alias-border-l1,rgba(0,0,0,.1));cursor:default}',
-      '.dsh-sweeper-cell[data-flag]{color:var(--dsw-alias-state-warn-primary,#d97706)}',
-      '.dsh-sweeper-cell[data-mine]{background:var(--dsw-alias-state-error-primary,#dc2626);color:#fff}',
-      '.dsh-sweeper-cell[data-n="1"]{color:#3b82f6}',
-      '.dsh-sweeper-cell[data-n="2"]{color:#16a34a}',
-      '.dsh-sweeper-cell[data-n="3"]{color:#dc2626}',
-      '.dsh-sweeper-cell[data-n="4"]{color:#7c3aed}',
-      '.dsh-sweeper-cell[data-n="5"]{color:#b45309}',
-      '.dsh-sweeper-cell[data-n="6"]{color:#0891b2}',
-      '.dsh-sweeper-cell[data-n="7"]{color:#db2777}',
-      '.dsh-sweeper-cell[data-n="8"]{color:#4b5563}',
-      '.dsh-sweeper-tab{position:absolute;width:34px;height:34px;padding:0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:grab;touch-action:none;background:var(--dsw-alias-bg-overlay,#fff);border:1px solid var(--dsw-alias-border-l2,rgba(0,0,0,.15));box-shadow:0 8px 20px rgba(0,0,0,.2)}',
-      '.dsh-sweeper-tab:active{cursor:grabbing}',
-      '.dsh-sweeper-tab:hover{border-color:var(--dsw-alias-brand-primary,#3b82f6)}',
+      '.dsh-mine-sweeper-head{display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--dsw-alias-border-l1,rgba(0,0,0,.08));cursor:grab;touch-action:none}',
+      '.dsh-mine-sweeper-head:active{cursor:grabbing}',
+      '.dsh-mine-sweeper-title{font-weight:600;flex:1 1 auto}',
+      '.dsh-mine-sweeper-meta{color:var(--dsw-alias-label-secondary,#888);font-variant-numeric:tabular-nums}',
+      '.dsh-mine-sweeper-btn{border:1px solid var(--dsw-alias-border-l1,rgba(0,0,0,.12));background:var(--dsw-alias-bg-layer-1,transparent);color:inherit;border-radius:6px;height:22px;min-width:22px;padding:0 6px;cursor:pointer;font:inherit;line-height:1}',
+      '.dsh-mine-sweeper-btn:hover{background:var(--dsw-alias-bg-layer-2,rgba(0,0,0,.06))}',
+      '.dsh-mine-sweeper-cfg{display:flex;align-items:center;gap:8px;padding:8px 10px 4px}',
+      '.dsh-mine-sweeper-field{display:inline-flex;align-items:center;gap:3px;color:var(--dsw-alias-label-secondary,#888)}',
+      '.dsh-mine-sweeper-num{width:40px;height:22px;box-sizing:border-box;padding:0 4px;border-radius:6px;text-align:center;border:1px solid var(--dsw-alias-border-l1,rgba(0,0,0,.12));background:var(--dsw-alias-bg-layer-1,transparent);color:inherit;font:inherit}',
+      '.dsh-mine-sweeper-apply{margin-left:auto;height:24px}',
+      '.dsh-mine-sweeper-status{padding:4px 10px 8px;color:var(--dsw-alias-label-secondary,#888)}',
+      '.dsh-mine-sweeper-scroll{overflow:auto;max-height:min(60vh,600px);padding:0 10px 10px}',
+      '.dsh-mine-sweeper-board{display:grid;gap:2px;justify-content:start}',
+      '.dsh-mine-sweeper-cell{width:22px;height:22px;padding:0;border:1px solid transparent;border-radius:4px;background:var(--dsw-alias-bg-layer-2,rgba(0,0,0,.07));color:var(--dsw-alias-label-primary,inherit);font-size:11px;font-weight:700;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:inherit}',
+      '.dsh-mine-sweeper-cell:hover:not([data-open]):not([data-mine]){background:var(--dsw-alias-bg-layer-1,rgba(0,0,0,.12))}',
+      '.dsh-mine-sweeper-cell[data-open]{background:transparent;border-color:var(--dsw-alias-border-l1,rgba(0,0,0,.1));cursor:default}',
+      '.dsh-mine-sweeper-cell[data-flag]{color:var(--dsw-alias-state-warn-primary,#d97706)}',
+      '.dsh-mine-sweeper-cell[data-mine]{background:var(--dsw-alias-state-error-primary,#dc2626);color:#fff}',
+      '.dsh-mine-sweeper-cell[data-n="1"]{color:#3b82f6}',
+      '.dsh-mine-sweeper-cell[data-n="2"]{color:#16a34a}',
+      '.dsh-mine-sweeper-cell[data-n="3"]{color:#dc2626}',
+      '.dsh-mine-sweeper-cell[data-n="4"]{color:#7c3aed}',
+      '.dsh-mine-sweeper-cell[data-n="5"]{color:#b45309}',
+      '.dsh-mine-sweeper-cell[data-n="6"]{color:#0891b2}',
+      '.dsh-mine-sweeper-cell[data-n="7"]{color:#db2777}',
+      '.dsh-mine-sweeper-cell[data-n="8"]{color:#4b5563}',
+      '.dsh-mine-sweeper-tab{position:absolute;width:34px;height:34px;padding:0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:grab;touch-action:none;background:var(--dsw-alias-bg-overlay,#fff);border:1px solid var(--dsw-alias-border-l2,rgba(0,0,0,.15));box-shadow:0 8px 20px rgba(0,0,0,.2)}',
+      '.dsh-mine-sweeper-tab:active{cursor:grabbing}',
+      '.dsh-mine-sweeper-tab:hover{border-color:var(--dsw-alias-brand-primary,#3b82f6)}',
     ].join('\n')
 
     var clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v))
@@ -222,7 +222,7 @@ window.__ModuleLoader__.load({
       if (collapsed) {
         return h('button', {
           ref: tabRef,
-          className: 'dsh-sweeper-tab',
+          className: 'dsh-mine-sweeper-tab',
           title: '打开扫雷（可以拖着走）',
           style: { left: pos.left + 'px', top: pos.top + 'px' },
           onPointerDown: onTabDown,
@@ -246,7 +246,7 @@ window.__ModuleLoader__.load({
         return h('button', {
           key: i,
           type: 'button',
-          className: 'dsh-sweeper-cell',
+          className: 'dsh-mine-sweeper-cell',
           'data-open': c.open && !c.mine ? '' : undefined,
           'data-mine': boom ? '' : undefined,
           'data-flag': c.flag && !wrong ? '' : undefined,
@@ -258,33 +258,33 @@ window.__ModuleLoader__.load({
 
       return h('div', {
         ref: panelRef,
-        className: 'dsh-sweeper-panel',
+        className: 'dsh-mine-sweeper-panel',
         style: { left: pos.left + 'px', top: pos.top + 'px', width: width + 'px' },
       },
         h('div', {
-          className: 'dsh-sweeper-head',
+          className: 'dsh-mine-sweeper-head',
           onPointerDown: onHeadDown,
           onPointerMove: onDrag,
           onPointerUp: onHeadUp,
           onPointerCancel: onHeadUp,
         },
-          h('span', { className: 'dsh-sweeper-title' }, '扫雷'),
-          h('span', { className: 'dsh-sweeper-meta' }, '💣 ' + remaining),
-          h('button', { type: 'button', className: 'dsh-sweeper-btn', title: '重开本局', onClick: restart }, '↻'),
-          h('button', { type: 'button', className: 'dsh-sweeper-btn', title: '折叠', onClick: () => setCollapsed(true) }, '–'),
+          h('span', { className: 'dsh-mine-sweeper-title' }, '扫雷'),
+          h('span', { className: 'dsh-mine-sweeper-meta' }, '💣 ' + remaining),
+          h('button', { type: 'button', className: 'dsh-mine-sweeper-btn', title: '重开本局', onClick: restart }, '↻'),
+          h('button', { type: 'button', className: 'dsh-mine-sweeper-btn', title: '折叠', onClick: () => setCollapsed(true) }, '–'),
         ),
-        h('div', { className: 'dsh-sweeper-cfg' },
-          h('label', { className: 'dsh-sweeper-field' }, '行',
-            h('input', { className: 'dsh-sweeper-num', type: 'number', min: 5, max: 30, value: cfg.rows, onChange: setField('rows') })),
-          h('label', { className: 'dsh-sweeper-field' }, '列',
-            h('input', { className: 'dsh-sweeper-num', type: 'number', min: 5, max: 30, value: cfg.cols, onChange: setField('cols') })),
-          h('label', { className: 'dsh-sweeper-field' }, '雷',
-            h('input', { className: 'dsh-sweeper-num', type: 'number', min: 1, max: 800, value: cfg.mines, onChange: setField('mines') })),
-          h('button', { type: 'button', className: 'dsh-sweeper-btn dsh-sweeper-apply', onClick: applyCfg }, '新游戏'),
+        h('div', { className: 'dsh-mine-sweeper-cfg' },
+          h('label', { className: 'dsh-mine-sweeper-field' }, '行',
+            h('input', { className: 'dsh-mine-sweeper-num', type: 'number', min: 5, max: 30, value: cfg.rows, onChange: setField('rows') })),
+          h('label', { className: 'dsh-mine-sweeper-field' }, '列',
+            h('input', { className: 'dsh-mine-sweeper-num', type: 'number', min: 5, max: 30, value: cfg.cols, onChange: setField('cols') })),
+          h('label', { className: 'dsh-mine-sweeper-field' }, '雷',
+            h('input', { className: 'dsh-mine-sweeper-num', type: 'number', min: 1, max: 800, value: cfg.mines, onChange: setField('mines') })),
+          h('button', { type: 'button', className: 'dsh-mine-sweeper-btn dsh-mine-sweeper-apply', onClick: applyCfg }, '新游戏'),
         ),
-        h('div', { className: 'dsh-sweeper-status' }, statusText),
-        h('div', { className: 'dsh-sweeper-scroll' },
-          h('div', { className: 'dsh-sweeper-board', style: { gridTemplateColumns: 'repeat(' + game.cols + ', 22px)' } }, cells),
+        h('div', { className: 'dsh-mine-sweeper-status' }, statusText),
+        h('div', { className: 'dsh-mine-sweeper-scroll' },
+          h('div', { className: 'dsh-mine-sweeper-board', style: { gridTemplateColumns: 'repeat(' + game.cols + ', 22px)' } }, cells),
         ),
       )
     }
@@ -292,7 +292,7 @@ window.__ModuleLoader__.load({
     function apply(ctx) {
       if (typeof document === 'undefined') return
       const tag = document.createElement('style')
-      tag.setAttribute('data-dsh-sweeper', '')
+      tag.setAttribute('data-dsh-mine-sweeper', '')
       tag.textContent = CSS
       document.head.appendChild(tag)
       ctx.on('dispose', () => { tag.remove() })

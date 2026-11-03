@@ -1,4 +1,4 @@
-# dsh-sweeper
+# dsh-mine-sweeper
 
 DeepSeek Harness 的扫雷浮层。一块可拖动、可折叠的棋盘悬浮在会话区左侧那条空白里，agent 干活的时候顺手玩。
 
@@ -11,10 +11,10 @@ DeepSeek Harness 的扫雷浮层。一块可拖动、可折叠的棋盘悬浮在
 ## 安装
 
 ```sh
-dsh plugin add dsh-sweeper
+dsh plugin add dsh-mine-sweeper
 ```
 
-或者从插件市场装 npm 包 `dsh-sweeper`，然后重启 `dsh web`。
+或者从插件市场装 npm 包 `dsh-mine-sweeper`，然后重启 `dsh web`。
 
 ## 接在哪
 

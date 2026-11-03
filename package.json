@@ -1,5 +1,5 @@
 {
-  "name": "dsh-sweeper",
+  "name": "dsh-mine-sweeper",
   "version": "0.1.0",
   "description": "扫雷浮层 / Minesweeper overlay for DeepSeek Harness — 在会话区左侧悬浮一块可拖动、可折叠、可自定义行列与雷数的扫雷盘，纯内存状态。",
   "type": "module",
@@ -53,14 +53,14 @@
     "game",
     "扫雷"
   ],
-  "author": "tianyaojiudi-prog",
+  "author": "Mailemailezhu",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tianyaojiudi-prog/dsh-sweeper.git"
+    "url": "git+https://github.com/Mailemailezhu/dsh-mine-sweeper.git"
   },
-  "homepage": "https://github.com/tianyaojiudi-prog/dsh-sweeper#readme",
+  "homepage": "https://github.com/Mailemailezhu/dsh-mine-sweeper#readme",
   "bugs": {
-    "url": "https://github.com/tianyaojiudi-prog/dsh-sweeper/issues"
+    "url": "https://github.com/Mailemailezhu/dsh-mine-sweeper/issues"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -14,12 +14,12 @@ await import('../client.js')
 // —— 客户端 bundle 契约 ——
 assert.equal(loads.length, 1, 'client.js should register exactly one module entry')
 const entry = loads[0]
-assert.equal(entry.id, 'dsh-sweeper', 'bundle id must equal the package name')
+assert.equal(entry.id, 'dsh-mine-sweeper', 'bundle id must equal the package name')
 const mod = entry.factory((spec) => {
   assert.equal(spec, 'react')
   return {}
 })
-assert.equal(mod.name, 'dsh-sweeper')
+assert.equal(mod.name, 'dsh-mine-sweeper')
 assert.deepEqual(mod.inject, ['slots'])
 
 // —— apply：插到 shell.overlay，并用 ctx.on('dispose') 收拾 style 标签 ——
@@ -39,7 +39,7 @@ assert.deepEqual(registered[0].opts, { name: 'shell.overlay', id: 'sweeper', ord
 assert.equal(typeof registered[0].component, 'function')
 assert.equal(styleTags.length, 1)
 disposed[0]()
-assert.match(styleTags[0].textContent, /\.dsh-sweeper-panel/)
+assert.match(styleTags[0].textContent, /\.dsh-mine-sweeper-panel/)
 
 // —— 纯逻辑：布雷、首点安全、翻格、插旗、输赢 ——
 const core = mod.gameCore
@@ -87,7 +87,7 @@ assert.equal(core.reveal(won, 0), won, 'board is frozen after winning')
 
 // —— Host 半边仍要能被 Node 加载 ——
 const host = await import('../index.js')
-assert.equal(host.name, 'dsh-sweeper')
+assert.equal(host.name, 'dsh-mine-sweeper')
 assert.equal(typeof host.apply, 'function')
 
 console.log('smoke: ok — bundle contract, slot registration, game core, host half')

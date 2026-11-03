@@ -1,4 +1,4 @@
-# dsh-sweeper
+# dsh-mine-sweeper
 
 Minesweeper overlay for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness). A draggable, collapsible board floats over the left side of the conversation area — the empty strip next to the sidebar — so you can play while the agent works.
 
@@ -11,10 +11,10 @@ Minesweeper overlay for [DeepSeek Harness](https://github.com/deepseek-ai/deepse
 ## Install
 
 ```sh
-dsh plugin add dsh-sweeper
+dsh plugin add dsh-mine-sweeper
 ```
 
-Or install the npm package `dsh-sweeper` from the plugin market, then restart `dsh web`.
+Or install the npm package `dsh-mine-sweeper` from the plugin market, then restart `dsh web`.
 
 ## How it plugs in
 

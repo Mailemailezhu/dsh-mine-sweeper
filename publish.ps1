@@ -1,9 +1,9 @@
-# 发布 dsh-sweeper 到 GitHub + npm。需要已经登录 gh 和 npm（本机目前都没有）。
+# 发布 dsh-mine-sweeper 到 GitHub + npm。需要已经登录 gh 和 npm（本机目前都没有）。
 #   gh auth login
 #   npm login --registry https://registry.npmjs.org
 param(
-    [string]$Repo = 'dsh-sweeper',
-    [string]$Owner = 'tianyaojiudi-prog'
+    [string]$Repo = 'dsh-mine-sweeper',
+    [string]$Owner = 'Mailemailezhu'
 )
 $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
@@ -31,5 +31,5 @@ if ($ok) {
     if ($LASTEXITCODE -ne 0) { throw 'npm publish 失败' }
 
     Write-Host "`n完成：https://github.com/$Owner/$Repo" -ForegroundColor Green
-    Write-Host '上架插件商店还差一步：往 awesome-dsh-plugin 提 PR 加一条条目（见 CATALOG-ENTRY.md）。'
+    Write-Host '上架插件商店还差一步：往 https://github.com/awesome-dsh-plugin/awesome-dsh-plugin 提 PR，在列表里加一条指向本仓库的条目。'
 }
